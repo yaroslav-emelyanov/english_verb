@@ -11,6 +11,24 @@ const routes = [
         meta: {layout: 'common'}
     },
     {
+        path: '/test',
+        name: 'test',
+        component: () => import('../views/Test.vue'),
+        meta: {layout: 'common'}
+    },
+    {
+        path: '/study',
+        name: 'study',
+        component: () => import('../views/Study.vue'),
+        meta: {layout: 'common'}
+    },
+    {
+        path: '/list',
+        name: 'list',
+        component: () => import('../views/List.vue'),
+        meta: {layout: 'common'}
+    },
+    {
         path: '/login',
         name: 'login',
         component: () => import('../views/Login.vue'),
