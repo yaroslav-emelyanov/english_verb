@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         list: [
-            {
+            /*{
                 id: '213',
                 translate: 'быть, являться',
                 infinitive: 'be',
@@ -16,7 +16,7 @@ export default new Vuex.Store({
                 example: 'i was at school',
                 example_translate: 'я был в школе',
                 upend: true
-            }
+            }*/
         ]
     },
     mutations: {
@@ -25,20 +25,21 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async getList({commit}) {
+        async getList({commit}, cut = false) {
             try {
+                const condition =  cut ? '?cut=true' : ''
                 const url = 'http://localhost:3000'
-                let res = await fetch(url + '/api/getVerbs')
+                let res = await fetch(url + '/api/getVerbs' + condition)
                 const json = await res.json()
                 commit('setList', json)
             } catch (e) {
                 console.log(e)
             }
         },
-        async setUpend({commit}, hash) {
+        async setUpend({commit}, id) {
             try {
                 const url = 'http://localhost:3000'
-                let res = await fetch(`${url}/api/setUpend/${hash}`)
+                let res = await fetch(`${url}/api/setUpend/${id}`)
                 const json = await res.json()
                 console.log('message: ', json.message)
             } catch (e) {

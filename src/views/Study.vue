@@ -1,9 +1,9 @@
 <template>
     <div class="wrap">
         <div class="cards">
-            <div class="card" :class="{upend: l.upend}" v-for="l of list" @click="upend(l.img, $event)">
+            <div class="card" :class="{upend: l.upend}" v-for="l of list" @click="upend(l.id, $event)">
                 <div class="front">
-                    <img class="card-img-top" :src="require(`@/assets/${l.img}.jpg`)" alt="image">
+                    <img class="card-img-top" :src="l.img ? `http://localhost:3000/img/${l.img}.jpg` :  'http://placehold.it/286x180'" alt="image">
                     <div class="card-body">
                         <div class="card-forms">{{ l.infinitive }} - {{ l.past_simple }} - {{ l.past_participle }}</div>
                         <div class="card-translate">{{ l.translate }}</div>
@@ -29,11 +29,11 @@
 
         }),
         methods: {
-            upend(hash, e) {
+            upend(id, e) {
                 const isBtn = e.target.classList.contains('btn')
                 if (!isBtn) {
-                    this.$store.dispatch('setUpend', hash)
-                    const idx = this.list.findIndex(card => card.img === hash)
+                    this.$store.dispatch('setUpend', id)
+                    const idx = this.list.findIndex(card => card.id === id)
                     this.list[idx].upend = !this.list[idx].upend
                 }
             }
@@ -48,7 +48,7 @@
         },
         mounted () {
             if (!this.list.length) {
-                this.$store.dispatch('getList')
+                this.$store.dispatch('getList', true)
             }
         }
     }
@@ -108,6 +108,8 @@
     }
 
     .front, .back {
+        width: 100%;
+        height: 100%;
         border: 1px solid rgba(0,0,0,.125);
         border-radius: .25em;
         transition: transform 0.75s;
@@ -118,8 +120,6 @@
         position: absolute;
         left: 0;
         top: 0;
-        width: 100%;
-        height: 100%;
         text-align: center;
         transform: rotateY(180deg);
         color: white;
