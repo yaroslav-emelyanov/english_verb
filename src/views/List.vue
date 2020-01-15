@@ -37,14 +37,7 @@
     export default {
         name: 'List',
         data: () => ({
-            voiceLoaded: false,
-            list: [{
-                id: '123232',
-                translate: 'быть, являться',
-                infinitive: 'be',
-                past_simple: 'was, were',
-                past_participle: 'been'
-            }]
+            voiceLoaded: false
         }),
         computed: {
             iconSound() {
