@@ -33,6 +33,11 @@
         margin: 0;
     }
 
+    a {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
     .justify-content-center {
         justify-content: center!important;
     }

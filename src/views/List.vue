@@ -34,33 +34,24 @@
 </template>
 
 <script>
+    import listenMix from '@/mixins/listen.mixin'
     export default {
         name: 'List',
+        mixins: [listenMix],
         data: () => ({
             voiceLoaded: false
         }),
         computed: {
             iconSound() {
                 return {background: `url(${require('../assets/sound_btn.png')}) center center/contain no-repeat`}
+            },
+            list() {
+                return this.$store.getters.getList
             }
         },
-        methods: {
-          listen(text, lang = 'US') {
-              if (!this.voiceLoaded) return
-              const voices = speechSynthesis.getVoices()
-              const utterance = new SpeechSynthesisUtterance()
-              if (lang === 'RU') {
-                  utterance.voice = voices[18]
-              } else {
-                  utterance.voice = voices[4]
-              }
-              utterance.text = text
-              speechSynthesis.speak(utterance)
-          }
-        },
         mounted() {
-            speechSynthesis.onvoiceschanged = () => {
-                this.voiceLoaded = true
+            if (!this.list.length) {
+                this.$store.dispatch('getList')
             }
         }
     }
