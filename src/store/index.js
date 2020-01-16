@@ -5,19 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        list: [
-            /*{
-                id: '213',
-                translate: 'быть, являться',
-                infinitive: 'be',
-                past_simple: 'was, were',
-                past_participle: 'been',
-                img: '86280ac8a7f8881407ba060c76d72d6a',
-                example: 'i was at school',
-                example_translate: 'я был в школе',
-                upend: true
-            }*/
-        ]
+        list: []
     },
     mutations: {
         setList(state, list) {
@@ -25,11 +13,20 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async getList({commit}, cut = false) {
+        async getList({commit}) {
             try {
-                const condition =  cut ? '?cut=true' : ''
                 const url = 'http://localhost:3000'
-                let res = await fetch(url + '/api/getVerbs' + condition)
+                let res = await fetch(url + '/api/getVerbsList')
+                const json = await res.json()
+                commit('setList', json)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async getStudyList({commit}) {
+            try {
+                const url = 'http://localhost:3000'
+                let res = await fetch(url + '/api/getVerbsStudy')
                 const json = await res.json()
                 commit('setList', json)
             } catch (e) {

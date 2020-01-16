@@ -3,11 +3,12 @@
         <div class="cards">
             <div class="card" :class="{upend: l.upend}" v-for="l of list" @click="upend(l.id, $event)">
                 <div class="front">
-                    <img class="card-img-top" :src="l.img ? `http://localhost:3000/img/${l.img}.jpg` :  'http://placehold.it/286x180'" alt="image">
+                    <div class="card-img-top" :style="{background: `url(${l.img ? `http://localhost:3000/img/${l.img}.jpg` :  'http://placehold.it/286x180'}) center center/cover no-repeat`}"></div>
                     <div class="card-body">
                         <div class="card-forms">{{ l.infinitive }} - {{ l.past_simple }} - {{ l.past_participle }}</div>
                         <div class="card-translate">{{ l.translate }}</div>
-                        <p class="card-text">{{ l.example }} - {{ l.example_translate }}</p>
+                        <p class="card-text">- {{ l.example }}</p>
+                        <p class="card-text">- {{ l.example_translate }}</p>
                         <div @click="listen(l.example)" class="btn" :style="iconSound"></div>
                     </div>
                 </div>
@@ -47,18 +48,17 @@
             }
         },
         mounted () {
-            if (!this.list.length) {
-                this.$store.dispatch('getList', true)
-            }
+            this.$store.dispatch('getStudyList')
         }
     }
 </script>
 
 <style lang="scss" scoped>
     .wrap {
-        width: 60%;
+        width: 90%;
         margin: 0 auto;
         padding-top: 3em;
+        padding-bottom: 3em;
     }
 
     .cards {
@@ -67,6 +67,7 @@
     }
 
     .card {
+        height: 400px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -87,24 +88,29 @@
     }
 
     .card-img-top {
-        width: 100%;
+        height: 50%;
         border-top-left-radius: calc(.25em - 1px);
         border-top-right-radius: calc(.25em - 1px);
     }
 
     .card-body {
-        flex: 1 1 auto;
-        padding: 1.25em;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.75em;
+        padding-top: 1.25em;
     }
-
+    .card-text {
+        margin: 0;
+        font-size: 1em;
+    }
     .card-forms {
         font-weight: bold;
-        margin-bottom: .75em;
     }
 
     .card-translate {
         font-size: 0.75em;
-        margin-bottom: .5em;
     }
 
     .front, .back {

@@ -8,7 +8,7 @@ global.db = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '1234',
-    database: 'english_verb'
+    database: 'english_verbs'
 })
 
 const app = express()

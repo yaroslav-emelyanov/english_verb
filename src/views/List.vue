@@ -50,9 +50,7 @@
             }
         },
         mounted() {
-            if (!this.list.length) {
-                this.$store.dispatch('getList')
-            }
+            this.$store.dispatch('getList')
         }
     }
 </script>
@@ -83,7 +81,7 @@
         display: flex;
         padding-left: 0;
         margin: 0;
-        width: 50%;
+        width: 60%;
         &:last-child {
             .list-group-item {
                 border-top: none;
