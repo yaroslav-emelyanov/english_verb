@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="count">{{ counter + 1 }}/{{ allQuestions }}</div>
         <div v-if="!ok" class="task">Напишите <span>{{ selectForm.short }}</span> форму глагола <span :title="currentVerb.translate">{{ currentVerb[selectWord] }}</span></div>
         <div v-else-if="success" class="task">Правильно!</div>
         <div v-else class="task">
@@ -38,6 +39,12 @@
                 const current = this.$store.getters.counterVerb
                 return (current + 1 === length)
             },
+            counter() {
+                return this.$store.getters.counterVerb
+            },
+            allQuestions() {
+                return this.$store.getters.testVerbs.length
+            }
         },
         methods: {
             next() {
@@ -62,7 +69,6 @@
                 if (this.currentVerb[this.selectForm.long] === this.text.trim().toLowerCase())  {
                    this.success = true
                    this.$store.commit('correctAnswers')
-                    console.log(this.$store.getters.getCorrectAnswers)
                 }
             },
           setVerb () {
@@ -86,6 +92,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .count {
+        margin-top: 1em;
+        text-align: center;
+    }
+
         .form {
         display: flex;
         justify-content: center;
@@ -93,7 +104,7 @@
     }
 
     .task {
-        margin-top: 9em;
+        margin-top: 7em;
         text-align: center;
     }
 

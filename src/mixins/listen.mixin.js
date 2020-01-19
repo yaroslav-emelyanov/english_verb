@@ -1,10 +1,7 @@
 export default {
-    data: () => ({
-        voiceLoaded: false
-    }),
     methods: {
         listen (text, lang = 'US') {
-            if (!this.voiceLoaded) return
+            if (!this.$store.getters.voiceLoaded) return
             const voices = speechSynthesis.getVoices()
             const utterance = new SpeechSynthesisUtterance()
             if (lang === 'RU') {
@@ -18,7 +15,7 @@ export default {
     },
     mounted () {
         speechSynthesis.onvoiceschanged = () => {
-            this.voiceLoaded = true
+            this.$store.commit('voiceLoaded')
         }
     }
 }

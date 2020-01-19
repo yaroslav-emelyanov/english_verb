@@ -6,22 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         correctAnswers: 0,
+        voiceLoaded: false,
         list: [],
         step: 'start',
-        testVerbs: [{
-            id: '12312',
-            translate: 'быть',
-            infinitive: 'be',
-            past_simple: 'was, were',
-            past_participle: 'been'
-        },
-            {
-                id: 'wqe',
-                translate: 'быxzfzasddть',
-                infinitive: 'besdfs',
-                past_simple: 'wasdfs',
-                past_participle: 'Asdsaa'
-            }],
+        testVerbs: [],
         counterVerb: 0
     },
     mutations: {
@@ -50,6 +38,9 @@ export default new Vuex.Store({
             state.testVerbs = []
             state.correctAnswers = 0
             state.counterVerb = 0
+        },
+        voiceLoaded (state) {
+            state.voiceLoaded = true
         }
     },
     actions: {
@@ -78,7 +69,7 @@ export default new Vuex.Store({
                 const url = 'http://localhost:3000'
                 let res = await fetch(url + '/api/getVerbsStudy')
                 const json = await res.json()
-                commit('testVerbs', json)
+                commit('setList', json)
             } catch (e) {
                 console.log(e)
             }
@@ -86,9 +77,7 @@ export default new Vuex.Store({
         async setUpend({commit}, id) {
             try {
                 const url = 'http://localhost:3000'
-                let res = await fetch(`${url}/api/setUpend/${id}`)
-                const json = await res.json()
-                console.log('message: ', json.message)
+                await fetch(`${url}/api/setUpend/${id}`)
             } catch (e) {
                 console.log(e)
             }
@@ -100,6 +89,7 @@ export default new Vuex.Store({
         testVerbs: s => s.testVerbs,
         currentVerb: s => s.testVerbs[s.counterVerb],
         counterVerb: s => s.counterVerb,
-        getCorrectAnswers: s => s.correctAnswers
+        getCorrectAnswers: s => s.correctAnswers,
+        voiceLoaded: s => s.voiceLoaded
     }
 })

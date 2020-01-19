@@ -9,8 +9,11 @@ router.get('/getVerbsList', (req, res) => {
     })
 })
 
-router.get('/getVerbsList', (req, res) => {
-    const sql = 'SELECT translate, infinitive, past_simple, past_participle FROM verbs'
+router.get('/getTestVerbs', (req, res) => {
+    const amount = req.query.amount
+    const sql = `SELECT * FROM verbs as t,
+    (SELECT DISTINCT ROUND((SELECT MAX(id) FROM verbs) *rand()) as rnd FROM verbs LIMIT ${+amount}) tmp
+    WHERE t.id in (rnd)`
     db.query(sql, (err, result) => {
         if (err) console.log(err)
         res.send(result)
