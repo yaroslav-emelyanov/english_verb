@@ -9,6 +9,14 @@ router.get('/getVerbsList', (req, res) => {
     })
 })
 
+router.get('/getVerbsList', (req, res) => {
+    const sql = 'SELECT translate, infinitive, past_simple, past_participle FROM verbs'
+    db.query(sql, (err, result) => {
+        if (err) console.log(err)
+        res.send(result)
+    })
+})
+
 router.get('/getVerbsStudy', (req, res) => {
     const sql = 'SELECT * FROM verbs WHERE img IS NOT NULL AND example IS NOT NULL'
     db.query(sql, (err, result) => {
